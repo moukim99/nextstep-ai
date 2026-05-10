@@ -1,0 +1,18 @@
+services:
+  Nextstep:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "${NEXTSTEP_PORT:-3100}:3100"
+    environment:
+      HOST: "0.0.0.0"
+      NEXTSTEP_HOME: "/Nextstep"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      NEXTSTEP_DEPLOYMENT_MODE: "authenticated"
+      NEXTSTEP_DEPLOYMENT_EXPOSURE: "private"
+      NEXTSTEP_PUBLIC_URL: "${NEXTSTEP_PUBLIC_URL:-http://localhost:3100}"
+      BETTER_AUTH_SECRET: "${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET must be set}"
+    volumes:
+      - "${NEXTSTEP_DATA_DIR:-../data/docker-Nextstep}:/Nextstep"

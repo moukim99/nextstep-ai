@@ -1,0 +1,92 @@
+[
+  {
+    "dir": "packages/adapter-utils",
+    "name": "@nextstepai/adapter-utils",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/acpx-local",
+    "name": "@nextstepai/adapter-acpx-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/claude-local",
+    "name": "@nextstepai/adapter-claude-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/codex-local",
+    "name": "@nextstepai/adapter-codex-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/cursor-local",
+    "name": "@nextstepai/adapter-cursor-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/gemini-local",
+    "name": "@nextstepai/adapter-gemini-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/opencode-local",
+    "name": "@nextstepai/adapter-opencode-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/pi-local",
+    "name": "@nextstepai/adapter-pi-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/openclaw-gateway",
+    "name": "@nextstepai/adapter-openclaw-gateway",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/shared",
+    "name": "@nextstepai/shared",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/db",
+    "name": "@nextstepai/db",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sdk",
+    "name": "@nextstepai/plugin-sdk",
+    "publishFromCi": true
+  },
+  {
+    "dir": "server",
+    "name": "@nextstepai/server",
+    "publishFromCi": true
+  },
+  {
+    "dir": "cli",
+    "name": "nextstepai",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/mcp-server",
+    "name": "@nextstepai/mcp-server",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/create-Nextstep-plugin",
+    "name": "@nextstepai/create-Nextstep-plugin",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sandbox-providers/e2b",
+    "name": "@nextstepai/plugin-e2b",
+    "publishFromCi": true
+  },
+  {
+    "dir": "ui",
+    "name": "@nextstepai/ui",
+    "publishFromCi": true
+  }
+]

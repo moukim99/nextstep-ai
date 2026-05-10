@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: Nextstep
+      POSTGRES_PASSWORD: Nextstep
+      POSTGRES_DB: Nextstep
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U Nextstep -d Nextstep"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "3100:3100"
+    environment:
+      DATABASE_URL: postgres://Nextstep:Nextstep@db:5432/Nextstep
+      PORT: "3100"
+      SERVE_UI: "true"
+      NEXTSTEP_DEPLOYMENT_MODE: "authenticated"
+      NEXTSTEP_DEPLOYMENT_EXPOSURE: "private"
+      NEXTSTEP_PUBLIC_URL: "${NEXTSTEP_PUBLIC_URL:-http://localhost:3100}"
+      BETTER_AUTH_SECRET: "${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET must be set}"
+    volumes:
+      - Nextstep-data:/Nextstep
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  Nextstep-data:
