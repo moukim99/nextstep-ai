@@ -21,17 +21,71 @@ interface ActorMiddlewareOptions {
 export function actorMiddleware(db: Db, opts: ActorMiddlewareOptions): RequestHandler {
   const boardAuth = boardAuthService(db);
   return async (req, _res, next) => {
-    req.actor =
-      opts.deploymentMode === "local_trusted"
-        ? {
-            type: "board",
-            userId: "local-board",
-            userName: "Local Board",
-            userEmail: null,
-            isInstanceAdmin: true,
-            source: "local_implicit",
-          }
-        : { type: "none", source: "none" };
+    if (opts.deploymentMode === "local_trusted") {
+      let activeUserId = "local-board";
+      let activeUserName = "Local Board";
+      let activeUserEmail: string | null = null;
+
+      const cookieHeader = req.headers.cookie ?? "";
+      const match = cookieHeader.match(/Nextstep-local-session=([^;]+)/);
+      if (match && match[1]) {
+        const userId = decodeURIComponent(match[1]).trim();
+        const user = await db
+          .select({ id: authUsers.id, name: authUsers.name, email: authUsers.email })
+          .from(authUsers)
+          .where(eq(authUsers.id, userId))
+          .then((rows) => rows[0] ?? null);
+        if (user) {
+          activeUserId = user.id;
+          activeUserName = user.name ?? "User";
+          activeUserEmail = user.email ?? null;
+        }
+      }
+
+      const [roleRow, memberships] = await Promise.all([
+        db
+          .select({ id: instanceUserRoles.id })
+          .from(instanceUserRoles)
+          .where(and(eq(instanceUserRoles.userId, activeUserId), eq(instanceUserRoles.role, "instance_admin")))
+          .then((rows) => rows[0] ?? null),
+        db
+          .select({
+            companyId: companyMemberships.companyId,
+            membershipRole: companyMemberships.membershipRole,
+            status: companyMemberships.status,
+          })
+          .from(companyMemberships)
+          .where(
+            and(
+              eq(companyMemberships.principalType, "user"),
+              eq(companyMemberships.principalId, activeUserId),
+              eq(companyMemberships.status, "active"),
+            ),
+          ),
+      ]);
+
+      req.actor = {
+        type: "board",
+        userId: activeUserId,
+        userName: activeUserName,
+        userEmail: activeUserEmail,
+        companyIds: memberships.map((row) => row.companyId),
+        memberships: memberships.map((row) => ({
+          companyId: row.companyId,
+          membershipRole: row.membershipRole,
+          status: row.status,
+        })),
+        isInstanceAdmin: activeUserId === "local-board" ? true : Boolean(roleRow),
+        source: "local_implicit",
+      };
+
+      const runIdHeader = req.header("x-Nextstep-run-id");
+      if (runIdHeader) req.actor.runId = runIdHeader;
+      next();
+      return;
+    }
+
+    req.actor = { type: "none", source: "none" };
 
     const runIdHeader = req.header("x-Nextstep-run-id");
 

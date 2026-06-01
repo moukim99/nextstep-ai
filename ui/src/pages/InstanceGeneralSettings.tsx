@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@/lib/router";
+import { useNavigate as useRawNavigate } from "react-router-dom";
 import type { PatchInstanceGeneralSettings, BackupRetentionPolicy } from "@nextstepai/shared";
 import {
   DAILY_RETENTION_PRESETS,
@@ -25,10 +27,16 @@ export function InstanceGeneralSettings() {
   const queryClient = useQueryClient();
   const [actionError, setActionError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+  const rawNavigate = useRawNavigate();
+
   const signOutMutation = useMutation({
     mutationFn: () => authApi.signOut(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
+      // Clear session immediately so LandingPage doesn't redirect back
+      queryClient.setQueryData(queryKeys.auth.session, null);
+      queryClient.removeQueries({ queryKey: queryKeys.auth.session });
+      rawNavigate("/", { replace: true });
     },
     onError: (error) => {
       setActionError(error instanceof Error ? error.message : "Failed to sign out.");

@@ -11,7 +11,8 @@ import {
   UserRoundPen,
 } from "lucide-react";
 import type { DeploymentMode } from "@nextstepai/shared";
-import { Link } from "@/lib/router";
+import { Link, useNavigate } from "@/lib/router";
+import { useNavigate as useRawNavigate } from "react-router-dom";
 import { authApi } from "@/api/auth";
 import { queryKeys } from "@/lib/queryKeys";
 import { useSidebar } from "../context/SidebarContext";
@@ -120,11 +121,17 @@ export function SidebarAccountMenu({
     retry: false,
   });
 
+  const navigate = useNavigate();
+  const rawNavigate = useRawNavigate();
+
   const signOutMutation = useMutation({
     mutationFn: () => authApi.signOut(),
     onSuccess: async () => {
       setOpen(false);
-      await queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
+      // Clear session immediately so LandingPage doesn't redirect back
+      queryClient.setQueryData(queryKeys.auth.session, null);
+      queryClient.removeQueries({ queryKey: queryKeys.auth.session });
+      rawNavigate("/", { replace: true });
     },
   });
 

@@ -107,10 +107,12 @@ export const authApi = {
 
   signInEmail: async (input: { email: string; password: string }) => {
     await authPost("/sign-in/email", input);
+    localStorage.removeItem("signed-out");
   },
 
   signUpEmail: async (input: { name: string; email: string; password: string }) => {
     await authPost("/sign-up/email", input);
+    localStorage.removeItem("signed-out");
   },
 
   getProfile: async (): Promise<CurrentUserProfile> => {
@@ -128,7 +130,13 @@ export const authApi = {
   updateProfile: async (input: UpdateCurrentUserProfile): Promise<CurrentUserProfile> =>
     authPatch("/profile", input, (payload) => currentUserProfileSchema.parse(payload)),
 
+  checkEmail: async (email: string): Promise<boolean> => {
+    const res = await authPost("/check-email", { email });
+    return Boolean(res?.exists);
+  },
+
   signOut: async () => {
+    localStorage.setItem("signed-out", "true");
     await authPost("/sign-out", {});
   },
 };

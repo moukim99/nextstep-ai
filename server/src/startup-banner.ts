@@ -141,7 +141,6 @@ export function printStartupBanner(opts: StartupBannerOptions): void {
     color("██║╚██╗██║██╔══╝   ██╔██╗    ██║   ╚════██║   ██║   ██╔══╝  ██╔═══╝ ", "cyan"),
     color("██║ ╚████║███████╗██╔╝ ██╗   ██║   ███████║   ██║   ███████╗██║     ", "cyan"),
     color("╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ", "cyan"),
-    color("              developed by boumaza mohamed moukim               ", "cyan"),
   ];
 
   const lines = [

@@ -22,6 +22,7 @@ import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } 
 import { CSS } from "@dnd-kit/utilities";
 import type { Company } from "@nextstepai/shared";
 import { Link, useLocation, useNavigate } from "@/lib/router";
+import { useNavigate as useRawNavigate } from "react-router-dom";
 import { authApi } from "@/api/auth";
 import { Button } from "@/components/ui/button";
 import {
@@ -137,6 +138,7 @@ export function SidebarCompanyMenu({ open: controlledOpen, onOpenChange }: Sideb
   const { isMobile, setSidebarOpen } = useSidebar();
   const location = useLocation();
   const navigate = useNavigate();
+  const rawNavigate = useRawNavigate();
   const open = controlledOpen ?? internalOpen;
   const setOpen = onOpenChange ?? setInternalOpen;
   const sensors = useSensors(
@@ -167,7 +169,10 @@ export function SidebarCompanyMenu({ open: controlledOpen, onOpenChange }: Sideb
     onSuccess: async () => {
       setOpen(false);
       if (isMobile) setSidebarOpen(false);
-      await queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
+      // Clear session immediately so LandingPage doesn't redirect back
+      queryClient.setQueryData(queryKeys.auth.session, null);
+      queryClient.removeQueries({ queryKey: queryKeys.auth.session });
+      rawNavigate("/", { replace: true });
     },
   });
 

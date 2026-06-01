@@ -1,3 +1,29 @@
+<p align="center">
+  <img src="doc/assets/header.png" alt="Nextstep — runs your business" width="720" />
+</p>
+
+<p align="center">
+  <a href="#quickstart"><strong>Quickstart</strong></a> &middot;
+  <a href="https://Nextstep.ing/docs"><strong>Docs</strong></a> &middot;
+  <a href="https://github.com/nextstepai/nextstep"><strong>GitHub</strong></a> &middot;
+  <a href="https://discord.gg/m4HZY7xNG3"><strong>Discord</strong></a> &middot;
+  <a href="https://x.com/Nextsteping"><strong>Twitter</strong></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/nextstepai/nextstep/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
+  <a href="https://github.com/nextstepai/nextstep/stargazers"><img src="https://img.shields.io/github/stars/nextstepai/nextstep?style=flat" alt="Stars" /></a>
+  <a href="https://discord.gg/m4HZY7xNG3"><img src="https://img.shields.io/discord/000000000?label=discord" alt="Discord" /></a>
+</p>
+
+<br/>
+
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/773bdfb2-6d1e-4e30-8c5f-3487d5b70c8f" width="600" controls></video>
+</div>
+
+<br/>
+
 ## What is Nextstep?
 
 # Open-source orchestration for zero-human companies
@@ -255,9 +281,27 @@ Nextstep is a full control plane, not a wrapper. Before you build any of this yo
 
 ## Quickstart
 
+Open source. Self-hosted. No Nextstep account required.
+
 ```bash
-git clone https://github.com/moukim99/nextstep-ai.git
-cd nextstep-ai
+npx nextstepai onboard --yes
+```
+
+That quickstart path now defaults to trusted local loopback mode for the fastest first run. To start in authenticated/private mode instead, choose a bind preset explicitly:
+
+```bash
+npx nextstepai onboard --yes --bind lan
+# or:
+npx nextstepai onboard --yes --bind tailnet
+```
+
+If you already have Nextstep configured, rerunning `onboard` keeps the existing config in place. Use `nextstepai configure` to edit settings.
+
+Or manually:
+
+```bash
+git clone https://github.com/nextstepai/nextstep.git
+cd Nextstep
 pnpm install
 pnpm dev
 ```
@@ -340,6 +384,10 @@ This is the short roadmap preview. See the full roadmap in [ROADMAP.md](ROADMAP.
 
 <br/>
 
+## Community & Plugins
+
+Find Plugins and more at [awesome-Nextstep](https://github.com/gsxdsm/awesome-Nextstep)
+
 ## Telemetry
 
 Nextstep collects anonymous usage telemetry to help us understand how the product is used and improve it. No personal information, issue content, prompts, file paths, or secrets are ever collected. Private repository references are hashed with a per-install salt before being sent.
@@ -359,6 +407,15 @@ We welcome contributions. See the [contributing guide](CONTRIBUTING.md) for deta
 
 <br/>
 
+## Community
+
+- [Discord](https://discord.gg/m4HZY7xNG3) — Join the community
+- [Twitter / X](https://x.com/Nextsteping) — Follow updates and announcements
+- [GitHub Issues](https://github.com/nextstepai/nextstep/issues) — bugs and feature requests
+- [GitHub Discussions](https://github.com/nextstepai/nextstep/discussions) — ideas and RFC
+
+<br/>
+
 ## License
 
 MIT &copy; 2026 Nextstep
@@ -369,4 +426,12 @@ MIT &copy; 2026 Nextstep
 
 <br/>
 
+---
 
+<p align="center">
+  <img src="doc/assets/footer.jpg" alt="" width="720" />
+</p>
+
+<p align="center">
+  <sub>Open source under MIT. Built for people who want to run companies, not babysit agents.</sub>
+</p>
