@@ -1,0 +1,11 @@
+name = "nextstep-server"
+main = "dist/index.js"
+compatibility_date = "2024-03-01"
+compatibility_flags = [ "nodejs_compat" ]
+
+# Wrangler configuration for Nextstep API Server.
+# Update the variables below to match your Cloudflare environment.
+
+# [vars]
+# PORT = "3100"
+# NODE_ENV = "production"
